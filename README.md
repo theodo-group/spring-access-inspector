@@ -60,8 +60,8 @@ The plugin allows to easily launch the inspector by adding a plugin in the pom.x
         <plugins>
             <plugin>
                 <groupId>com.theodo</groupId>
-                <artifactId>inspector-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <artifactId>spring-access-inspector-plugin</artifactId>
+                <version>1.0.3</version>
                 <configuration>
                     <projectBaseDir>${project.basedir}</projectBaseDir>
                     <htmlOutputFile>./table.html</htmlOutputFile>
@@ -75,3 +75,37 @@ The plugin allows to easily launch the inspector by adding a plugin in the pom.x
 - Then in your Shell or CI, launch the analysis:
 
 `mvn inspector:inspect`
+
+## How to contribute
+
+### Upgrade the version
+
+In order to upgrade the version, update the version value in
+
+- the 3 pom.xml
+- this read me
+
+### Deployment
+
+To deploy, you have to:
+
+- Add the username and password of the "public" server to your root .m2/settings.xml
+
+```
+<server>
+  <id>public</id>
+  <username>thesonatypetokenusername</username>
+  <password>thesonatypetokenpassword</password>
+</server>
+```
+
+- Add your gpg key passphrase to your root .m2/settings.xml
+
+```
+<server>
+  <id>gpg</id>
+  <passphrase>yourgpgkeypassphrase</passphrase>
+</server>
+```
+
+- Run `mvn clean deploy --projects inspector,inspector-maven-plugin` so it only deploys the plugin and the inspector itself and not the aggregate.
