@@ -1,111 +1,185 @@
-# SPRING ACCESS INSPECTOR
+# Spring Access Inspector
 
-This project is composed of two parts:
-
-- The inspector itself.
-- The wrapper plugin that allows to easily use spring-access_inspector on any project.
-
-## Inspector itself
-
-This project uses java 21
-
-### What is spring-access-control ?
-
-This tool creates a table report to verify access control on Spring Boot routes.
-It uses the [`Preauthorize`, `Secured` or `RolesAllowed`](https://www.baeldung.com/spring-security-method-security) annotation from `spring-security-config`.
-It creates a table.html file with a list of your routes and their preauthorize.
+This tool generates a table report to verify access control on your Spring Boot routes. It scans for the [`@PreAuthorize`, `@Secured`, or `@RolesAllowed`](https://www.baeldung.com/spring-security-method-security) annotations from `spring-security-config` to create a `table.html` file with an easy-to-read list of all your routes and their access control annotations.
 
 ![List of your routes with preauthorize annotation](preauthorize-table.png)
 
-### How to use it
+## Quickstart
 
-If you want to directly use the inspector without the plugin, follow those steps:
+A plugin has been uploaded to [Maven Central](https://central.sonatype.com/). You can quickly use it by adding this plugin to the `<plugins>` section of your project's `pom.xml`.
 
-- Clone the repository:
-
-`git clone git@github.com:theodo-group/spring-access-inspector.git`
-
-- Go inside the inspector folder:
-
-`cd spring-access-inspector/inspector`
-
-- Compile the code:
-
-`mvn compile exec:java -Dexec.mainClass=com.theodo.inspector.SpringAccessInspector`
-
-- Run the code (using maven exec plugin) and give it the path of the pom you want to analyze :
-
-`mvn exec:java -Dexec.mainClass=com.theodo.inspector.SpringAccessInspector -Dexec.args="/the_path/where/poms/are"`
-
-N.B: You may need to compile your code before:
-
-`mvn clean install -DskipTests`
-
-## The maven plugin
-
-The plugin allows to easily launch the inspector by adding a plugin in the pom.xml of the project you want to inspect.
-
-- First compile the plugin
-
-`mvn clean install`
-
-- In your `./your_project/pom.xml` file, add the plugin in `build/pluginManagement` as follows:
+<details>
+<summary>Java 17</summary>
 
 ```xml
-  <build>
-
-    ... Whatever...
-
-    <pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>com.theodo</groupId>
-                <artifactId>spring-access-inspector-plugin</artifactId>
-                <version>2.0.3</version>
-                <configuration>
-                    <projectBaseDir>${project.basedir}</projectBaseDir>
-                    <htmlOutputFile>./table.html</htmlOutputFile>
-                </configuration>
-            </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+<build>
+  <pluginManagement>
+    <plugins>
+      <!-- ...existing plugins... -->
+      <plugin>
+        <groupId>com.theodo</groupId>
+        <artifactId>spring-access-inspector-plugin</artifactId>
+        <version>1.0.3</version>
+        <configuration>
+          <projectBaseDir>${project.basedir}</projectBaseDir>
+          <htmlOutputFile>./table.html</htmlOutputFile>
+        </configuration>
+      </plugin>
+      <!-- ...existing plugins... -->
+    </plugins>
+  </pluginManagement>
+</build>
 ```
 
-- Then in your Shell or CI, launch the analysis:
+</details>
 
-`mvn inspector:inspect`
+<details>
+<summary>Java 21</summary>
 
-## How to contribute
+```xml
+<build>
+  <pluginManagement>
+    <plugins>
+      <!-- ...existing plugins... -->
+      <plugin>
+        <groupId>com.theodo</groupId>
+        <artifactId>spring-access-inspector-plugin</artifactId>
+        <version>2.0.3</version>
+        <configuration>
+          <projectBaseDir>${project.basedir}</projectBaseDir>
+          <htmlOutputFile>./table.html</htmlOutputFile>
+        </configuration>
+      </plugin>
+      <!-- ...existing plugins... -->
+    </plugins>
+  </pluginManagement>
+</build>
+```
 
-### Upgrade the version
+</details>
 
-In order to upgrade the version, update the version value in
+## The Project
 
-- the 3 pom.xml
-- this read me
+This project is composed of two parts:
+
+1. **The Inspector**: The core tool that performs the analysis.
+2. **The Maven Plugin**: A wrapper plugin that simplifies using the inspector in any project.
+
+### Inspector
+
+The inspector uses Java 21. A Java 17 version is available on the branch [`v1-java-17`](https://github.com/theodo-group/spring-access-inspector/tree/v1-java-17).
+
+To use the inspector locally without the plugin, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone git@github.com:theodo-group/spring-access-inspector.git
+   ```
+
+2. Navigate to the inspector folder:
+
+   ```bash
+   cd spring-access-inspector/inspector
+   ```
+
+3. Compile the code:
+
+   ```bash
+   mvn compile exec:java -Dexec.mainClass=com.theodo.inspector.SpringAccessInspector
+   ```
+
+4. Run the code (using the Maven exec plugin) and provide the path to the `pom.xml` files you want to analyze:
+
+   ```bash
+   mvn exec:java -Dexec.mainClass=com.theodo.inspector.SpringAccessInspector -Dexec.args="/path/to/poms"
+   ```
+
+   **Note**: You may need to compile your code beforehand:
+
+   ```bash
+   mvn clean install -DskipTests
+   ```
+
+### Maven Plugin
+
+The Maven plugin simplifies launching the inspector by adding it to the `pom.xml` of the project you want to inspect. It is available on [Maven Central](https://central.sonatype.com/), but you can also use it locally.
+
+1. Navigate to the plugin folder:
+
+   ```bash
+   cd spring-access-inspector/inspector-maven-plugin
+   ```
+
+2. Compile the plugin:
+
+   ```bash
+   mvn clean install
+   ```
+
+3. Add the plugin to the `build/pluginManagement` section of your project's `pom.xml`:
+
+   ```xml
+   <build>
+     <!-- ...existing build configuration... -->
+     <pluginManagement>
+       <plugins>
+         <plugin>
+           <groupId>com.theodo</groupId>
+           <artifactId>spring-access-inspector-plugin</artifactId>
+           <version>2.0.3</version>
+           <configuration>
+             <projectBaseDir>${project.basedir}</projectBaseDir>
+             <htmlOutputFile>./table.html</htmlOutputFile>
+           </configuration>
+         </plugin>
+       </plugins>
+     </pluginManagement>
+   </build>
+   ```
+
+4. Run the analysis in your shell or CI:
+
+   ```bash
+   mvn inspector:inspect
+   ```
+
+   **Note**: You may need to compile the inspector code beforehand (see above).
+
+## How to Contribute
+
+### Upgrade the Version
+
+When upgrading the version, update the following:
+
+- The version in the three `pom.xml` files (inspector, plugin, and aggregate).
+- This README file.
 
 ### Deployment
 
-To deploy, you have to:
+To deploy the project:
 
-- Add the username and password of the "public" server to your root .m2/settings.xml
+1. Add the username and password for the "public" server to your root `.m2/settings.xml`:
 
-```
-<server>
-  <id>public</id>
-  <username>thesonatypetokenusername</username>
-  <password>thesonatypetokenpassword</password>
-</server>
-```
+   ```xml
+   <server>
+     <id>public</id>
+     <username>thesonatypetokenusername</username>
+     <password>thesonatypetokenpassword</password>
+   </server>
+   ```
 
-- Add your gpg key passphrase to your root .m2/settings.xml
+2. Add your GPG key passphrase to your root `.m2/settings.xml`:
 
-```
-<server>
-  <id>gpg</id>
-  <passphrase>yourgpgkeypassphrase</passphrase>
-</server>
-```
+   ```xml
+   <server>
+     <id>gpg</id>
+     <passphrase>yourgpgkeypassphrase</passphrase>
+   </server>
+   ```
 
-- Run `mvn clean deploy --projects inspector,inspector-maven-plugin` so it only deploys the plugin and the inspector itself and not the aggregate.
+3. Run the following command to deploy only the plugin and the inspector:
+
+   ```bash
+   mvn clean deploy --projects inspector,inspector-maven-plugin
+   ```
