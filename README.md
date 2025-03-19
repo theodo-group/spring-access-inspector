@@ -6,57 +6,73 @@ This tool generates a table report to verify access control on your Spring Boot 
 
 ## Quickstart
 
-A plugin has been uploaded to [Maven Central](https://central.sonatype.com/). You can quickly use it by adding this plugin to the `<plugins>` section of your project's `pom.xml`.
+Follow these three steps to quickly use the Spring Access Inspector:
 
-<details>
-<summary>Java 17</summary>
+1. **Add the plugin**: Add the following plugin to the `<plugins>` section of your project's `pom.xml`:
 
-```xml
-<build>
-  <pluginManagement>
-    <plugins>
-      <!-- ...existing plugins... -->
-      <plugin>
-        <groupId>com.theodo</groupId>
-        <artifactId>spring-access-inspector-plugin</artifactId>
-        <version>1.0.3</version>
-        <configuration>
-          <projectBaseDir>${project.basedir}</projectBaseDir>
-          <htmlOutputFile>./table.html</htmlOutputFile>
-        </configuration>
-      </plugin>
-      <!-- ...existing plugins... -->
-    </plugins>
-  </pluginManagement>
-</build>
-```
+   <details open>
+   <summary>Java 21</summary>
 
-</details>
+   ```xml
+   <build>
+     <pluginManagement>
+       <plugins>
+         <!-- ...existing plugins... -->
+         <plugin>
+           <groupId>com.theodo</groupId>
+           <artifactId>spring-access-inspector-plugin</artifactId>
+           <version>2.0.3</version>
+           <configuration>
+             <projectBaseDir>${project.basedir}</projectBaseDir>
+             <htmlOutputFile>./table.html</htmlOutputFile>
+           </configuration>
+         </plugin>
+         <!-- ...existing plugins... -->
+       </plugins>
+     </pluginManagement>
+   </build>
+   ```
 
-<details>
-<summary>Java 21</summary>
+   </details>
 
-```xml
-<build>
-  <pluginManagement>
-    <plugins>
-      <!-- ...existing plugins... -->
-      <plugin>
-        <groupId>com.theodo</groupId>
-        <artifactId>spring-access-inspector-plugin</artifactId>
-        <version>2.0.3</version>
-        <configuration>
-          <projectBaseDir>${project.basedir}</projectBaseDir>
-          <htmlOutputFile>./table.html</htmlOutputFile>
-        </configuration>
-      </plugin>
-      <!-- ...existing plugins... -->
-    </plugins>
-  </pluginManagement>
-</build>
-```
+    <details>
+   <summary>Java 17</summary>
 
-</details>
+   ```xml
+   <build>
+     <pluginManagement>
+       <plugins>
+         <!-- ...existing plugins... -->
+         <plugin>
+           <groupId>com.theodo</groupId>
+           <artifactId>spring-access-inspector-plugin</artifactId>
+           <version>1.0.3</version>
+           <configuration>
+             <projectBaseDir>${project.basedir}</projectBaseDir>
+             <htmlOutputFile>./table.html</htmlOutputFile>
+           </configuration>
+         </plugin>
+         <!-- ...existing plugins... -->
+       </plugins>
+     </pluginManagement>
+   </build>
+   ```
+
+   </details>
+
+2. **Compile the project**: Run the following command to compile your project and ensure the plugin is installed:
+
+   ```bash
+   mvn clean install -U
+   ```
+
+3. **Run the inspector**: Execute the inspector using the following command:
+
+   ```bash
+   mvn inspector:inspect
+   ```
+
+   The result will be generated in a `table.html` file at the root of your project.
 
 ## The Project
 
@@ -137,6 +153,11 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
      </pluginManagement>
    </build>
    ```
+
+   **Configuration Options**:
+
+   - `projectBaseDir`: Specifies the base directory of the project to analyze. Defaults to `${project.basedir}`.
+   - `htmlOutputFile`: Specifies the path to the output HTML file. Defaults to `./table.html`.
 
 4. Run the analysis in your shell or CI:
 
