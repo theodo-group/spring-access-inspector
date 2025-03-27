@@ -21,7 +21,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.0.3</version>
+           <version>2.1.0</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
              <htmlOutputFile>./table.html</htmlOutputFile>
@@ -46,7 +46,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>1.0.3</version>
+           <version>2.1.0</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
              <htmlOutputFile>./table.html</htmlOutputFile>
@@ -63,7 +63,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
 2. **Compile the project**: Run the following command to compile your project and ensure the plugin is installed:
 
    ```bash
-   mvn clean install -U
+   mvn clean install -U -DskipTests
    ```
 
 3. **Run the inspector**: Execute the inspector using the following command:
@@ -143,7 +143,7 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.0.3</version>
+           <version>2.1.0</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
              <htmlOutputFile>./table.html</htmlOutputFile>
@@ -175,6 +175,7 @@ When upgrading the version, update the following:
 
 - The version in the three `pom.xml` files (inspector, plugin, and aggregate).
 - This README file.
+- The version of the plugin in the sample project.
 
 ### Deployment
 

@@ -63,8 +63,8 @@
             <plugins>
                 <plugin>
                     <groupId>com.theodo</groupId>
-                    <artifactId>inspector-maven-plugin</artifactId>
-                    <version>1.0.0</version>
+                    <artifactId>spring-access-inspector-plugin</artifactId>
+                    <version>2.1.0</version>
                     <configuration>
                         <projectBaseDir>${project.basedir}</projectBaseDir>
                         <htmlOutputFile>./table.html</htmlOutputFile>

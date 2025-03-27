@@ -35,7 +35,7 @@ class SpringAccessInspectorTest extends UnitTest {
 
         assertEquals(List.of(
                 "GetMapping /webclient/v2/cars 🚨 No PreAuthorize annotation found",
-                "GetMapping /webclient/v3/cars/{param}/details ROLE_USER",
+                "GetMapping /webclient/v3/cars/{carsId}/details ROLE_USER",
                 "PostMapping /webclient/v1/cars ROLE_ADMIN"),
                 getAnnotationsForEndpoint(annotations, "cars"));
 
@@ -66,11 +66,11 @@ class SpringAccessInspectorTest extends UnitTest {
 
         assertEquals(List.of(
                 "DeleteMapping /another/delete ROLE_ADMIN",
-                "DeleteMapping /another/{param}/{param} ROLE_ADMIN",
+                "DeleteMapping /another/{projectId}/{info} ROLE_ADMIN",
                 "PutMapping /another/upload ROLE_USER",
-                "PutMapping /another/{param} ROLE_USER",
+                "PutMapping /another/{projectId} ROLE_USER",
                 "RequestMapping /another/modify 🚨 No PreAuthorize annotation found",
-                "RequestMapping /another/{param} 🚨 No PreAuthorize annotation found"),
+                "RequestMapping /another/{projectId} 🚨 No PreAuthorize annotation found"),
                 getAnnotationsForEndpoint(annotations, "another"));
 
     }
