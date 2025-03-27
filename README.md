@@ -63,7 +63,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
 2. **Compile the project**: Run the following command to compile your project and ensure the plugin is installed:
 
    ```bash
-   mvn clean install -U
+   mvn clean install -U -DskipTests
    ```
 
 3. **Run the inspector**: Execute the inspector using the following command:
@@ -175,6 +175,7 @@ When upgrading the version, update the following:
 
 - The version in the three `pom.xml` files (inspector, plugin, and aggregate).
 - This README file.
+- The version of the plugin in the sample project.
 
 ### Deployment
 
