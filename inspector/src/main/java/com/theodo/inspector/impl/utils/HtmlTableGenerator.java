@@ -1,8 +1,9 @@
 package com.theodo.inspector.impl.utils;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 public class HtmlTableGenerator {
 
@@ -62,14 +63,15 @@ public class HtmlTableGenerator {
 
         // Iterate over the list and generate each row of the table
         for (AnnotationDto annotation : annotations) {
-            htmlTable.append("<tr>\n<td>").append(annotation.endpoint()).append("</td>\n")
-                    .append("<td>").append(annotation.method().replace("Mapping", "")).append("</td>\n")
-                    .append("<td>").append(annotation.preAuthorize()).append("</td>\n</tr>\n");
+            htmlTable.append("<tr>\n<td>").append(StringEscapeUtils.escapeHtml4(annotation.endpoint())).append("</td>\n")
+                    .append("<td>").append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", ""))).append("</td>\n")
+                    .append("<td>").append(StringEscapeUtils.escapeHtml4(annotation.preAuthorize())).append("</td>\n</tr>\n");
         }
-
+    
+        
         // Close the HTML table and body
         htmlTable.append("</table>\n</body>\n</html>");
-
+        
         // Write the HTML table to a file
         try (PrintWriter writer = new PrintWriter(htmlOutputFile)) {
             writer.println(htmlTable);
