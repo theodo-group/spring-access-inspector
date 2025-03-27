@@ -6,7 +6,7 @@
 
     <groupId>com.theodo</groupId>
     <artifactId>spring-access-inspector-plugin</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <name>Spring access inspector Maven plugin</name>
     <description>Use Spoon AST analysis to discover and analyse @PreAuthorize annotations</description>
     <url>https://github.com/theodo-group/spring-access-inspector</url>
