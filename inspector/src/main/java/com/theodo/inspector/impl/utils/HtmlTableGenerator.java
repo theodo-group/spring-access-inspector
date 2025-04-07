@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.apache.commons.text.StringEscapeUtils;
 
+import com.theodo.inspector.SpringAccessInspector.Editor;
+
 public class HtmlTableGenerator {
 
-    public static void generateHtmlTable(List<AnnotationDto> annotations, String htmlOutputFile) {
+    public static void generateHtmlTable(List<AnnotationDto> annotations, String htmlOutputFile, Editor editor) {
         // Generate the HTML table
         StringBuilder htmlTable = new StringBuilder();
         htmlTable.append("\n<head>\n<style>\n")
@@ -63,9 +65,7 @@ public class HtmlTableGenerator {
 
         // Iterate over the list and generate each row of the table
         for (AnnotationDto annotation : annotations) {
-            htmlTable.append("<tr>\n<td>").append(StringEscapeUtils.escapeHtml4(annotation.endpoint())).append("</td>\n")
-                    .append("<td>").append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", ""))).append("</td>\n")
-                    .append("<td>").append(StringEscapeUtils.escapeHtml4(annotation.preAuthorize())).append("</td>\n</tr>\n");
+            addTableRow(htmlTable, annotation, editor);
         }
     
         
@@ -78,5 +78,32 @@ public class HtmlTableGenerator {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void addTableRow(StringBuilder htmlTable, AnnotationDto annotation, Editor editor) {
+        String urlPrefix;
+        switch (editor) {
+            case VSCODE:
+                urlPrefix = "vscode://file/";
+                break;
+            case INTELLIJ:
+                urlPrefix = "idea://open?file=";
+                break;
+            case NONE:
+            default:
+                urlPrefix = "file://";
+                break;
+        }
+        htmlTable.append("<tr>\n<td><a href='")
+                .append(StringEscapeUtils.escapeHtml4(urlPrefix + annotation.url()))
+                .append("' target='_blank'>")
+                .append(StringEscapeUtils.escapeHtml4(annotation.endpoint()))
+                .append("</a></td>\n")
+                .append("<td>")
+                .append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", "")))
+                .append("</td>\n")
+                .append("<td>")
+                .append(StringEscapeUtils.escapeHtml4(annotation.preAuthorize()))
+                .append("</td>\n</tr>\n");
     }
 }
