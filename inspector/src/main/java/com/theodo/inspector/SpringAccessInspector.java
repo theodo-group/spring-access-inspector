@@ -23,10 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 import spoon.reflect.CtModel;
 
+
 @Slf4j
 public class SpringAccessInspector extends InspectorCommand implements AnnotationEvent {
     @Getter
     private int errorCount = 0;
+    
+    public enum Editor {
+        VSCODE,
+        INTELLIJ,
+        NONE
+    }
+
+    @Getter
+    public Editor editor;
 
     public void setProjectDirectory(String projectDirectory) {
         this.projectDirectory = projectDirectory;
@@ -57,7 +67,7 @@ public class SpringAccessInspector extends InspectorCommand implements Annotatio
     @Override
     public Integer call() throws Exception {
         List<AnnotationDto> annotations = analyzer();
-        HtmlTableGenerator.generateHtmlTable(annotations, this.htmlOutputFile);
+        HtmlTableGenerator.generateHtmlTable(annotations, this.htmlOutputFile, this.editor);
         return 0;
     }
 
