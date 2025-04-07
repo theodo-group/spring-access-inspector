@@ -1,6 +1,6 @@
 # Spring Access Inspector
 
-This tool generates a table report to verify access control on your Spring Boot routes. It scans for the [`@PreAuthorize`, `@Secured`, or `@RolesAllowed`](https://www.baeldung.com/spring-security-method-security) annotations from `spring-security-config` to create a `table.html` file with an easy-to-read list of all your routes and their access control annotations.
+This tool generates a table report to verify access control on your Spring Boot routes. It scans for the [`@PreAuthorize`, `@Secured`, or `@RolesAllowed`](https://www.baeldung.com/spring-security-method-security) annotations from `spring-security-config` to create a `access_control.html` file with an easy-to-read list of all your routes and their access control annotations.
 
 ![List of your routes with preauthorize annotation](preauthorize-table.png)
 
@@ -24,7 +24,6 @@ Follow these three steps to quickly use the Spring Access Inspector:
            <version>2.2.0</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
-             <htmlOutputFile>./table.html</htmlOutputFile>
            </configuration>
          </plugin>
          <!-- ...existing plugins... -->
@@ -46,10 +45,9 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>1.1.0</version>
+           <version>1.2.0</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
-             <htmlOutputFile>./table.html</htmlOutputFile>
            </configuration>
          </plugin>
          <!-- ...existing plugins... -->
@@ -72,7 +70,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
    mvn inspector:inspect
    ```
 
-   The result will be generated in a `table.html` file at the root of your project.
+   The result will be generated in a `acess_control.html` file at the root of your project.
 
 ## The Project
 
@@ -146,7 +144,6 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
            <version>2.2.0</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
-             <htmlOutputFile>./table.html</htmlOutputFile>
            </configuration>
          </plugin>
        </plugins>
@@ -158,6 +155,7 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
 
    - `projectBaseDir`: Specifies the base directory of the project to analyze. Defaults to `${project.basedir}`.
    - `htmlOutputFile`: Specifies the path to the output HTML file. Defaults to `./table.html`.
+   - `editor`: Specifies the editor to open the generated HTML file. Options are `vscode`, `intellij`, or `none`. Defaults to `none`.
 
 4. Run the analysis in your shell or CI:
 
