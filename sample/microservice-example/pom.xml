@@ -60,10 +60,9 @@
                 <plugin>
                     <groupId>com.theodo</groupId>
                     <artifactId>inspector-maven-plugin</artifactId>
-                    <version>1.1.0</version>
+                    <version>1.2.0</version>
                     <configuration>
                         <projectBaseDir>${project.basedir}</projectBaseDir>
-                        <htmlOutputFile>./table.html</htmlOutputFile>
                     </configuration>
                 </plugin>
                 <plugin>

@@ -9,10 +9,30 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 @Mojo(name = "inspect", defaultPhase = LifecyclePhase.PRE_SITE)
 public class InspectorMojo extends AbstractMojo {
-    @Parameter(defaultValue = "${project.basedir}", required = true, readonly = true)
+    @Parameter(defaultValue = "${project.basedir}", required = true)
     String projectBaseDir;
-    @Parameter(readonly = true)
+    @Parameter(defaultValue = "./access_control.html")
     String htmlOutputFile;
+    @Parameter(defaultValue = "none")
+    String editor;
+
+    public void setEditor(SpringAccessInspector inspector) throws MojoExecutionException {
+        switch (editor.toLowerCase()) {
+            case "intellij":
+                inspector.editor = SpringAccessInspector.Editor.INTELLIJ;
+                break;
+            case "vscode":
+                inspector.editor = SpringAccessInspector.Editor.VSCODE;
+                break;
+            case "none":
+                inspector.editor = SpringAccessInspector.Editor.NONE;
+                break;
+            default:
+                getLog().warn("Unknown editor type. Defaulting to NONE.");
+                inspector.editor = SpringAccessInspector.Editor.NONE;
+                break;
+        }
+    }
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -20,6 +40,7 @@ public class InspectorMojo extends AbstractMojo {
             SpringAccessInspector inspector = new SpringAccessInspector();
             inspector.projectDirectory = projectBaseDir;
             inspector.htmlOutputFile = htmlOutputFile;
+            setEditor(inspector);
 
             inspector.call();
         } catch (Exception e) {

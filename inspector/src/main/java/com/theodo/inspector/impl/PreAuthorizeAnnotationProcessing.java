@@ -31,11 +31,11 @@ public class PreAuthorizeAnnotationProcessing {
                 (ctClass, ctMethod, verb, path) -> {
 
                     String preAuthorize = analyzePreAuthorize(ctClass, ctMethod, annotationEvent);
-                    AnnotationDto annotation = new AnnotationDto(path, verb, preAuthorize);
+                    AnnotationDto annotation = new AnnotationDto(SourceLocation.getSourceLocation(ctMethod), path, verb, preAuthorize);
                     annotations.add(annotation);
 
                     log.info(
-                            "\n\n\n🪴 Found '{}' endpoint '{}' in method '{}' in class '{}' at {}.\nPreAuthorize: {}\n",
+                            "\n\n\n🪴 Found '{}' endpoint '{}' in method '{}' in class '{}' at file: {}.\nPreAuthorize: {}\n",
                             verb, path,
                             ctMethod.getSimpleName(),
                             ctClass.getSimpleName(),
