@@ -96,7 +96,7 @@ public class HtmlTableGenerator {
         }
         htmlTable.append("<tr>\n<td><a href='")
                 .append(StringEscapeUtils.escapeHtml4(urlPrefix + annotation.url()))
-                .append("' target='_blank'>")
+                .append("'>")
                 .append(StringEscapeUtils.escapeHtml4(annotation.endpoint()))
                 .append("</a></td>\n")
                 .append("<td>")
