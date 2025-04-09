@@ -4,6 +4,6 @@ import spoon.reflect.declaration.CtElement;
 
 public class SourceLocation {
     public static String getSourceLocation(CtElement ctElement) {
-        return ctElement.getPosition().getFile().getPath() + "#" + ctElement.getPosition().getLine();
+        return ctElement.getPosition().getFile().getPath() + ":" + ctElement.getPosition().getLine();
     }
 }
