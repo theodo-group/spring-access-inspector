@@ -2,34 +2,41 @@ package com.theodo.inspector.impl.utils;
 
 import spoon.reflect.declaration.CtElement;
 
+/**
+ * Represents a file path+line with methods to generate URLs for
+ * specific IDEs (e.g., VSCode, IntelliJ) or directly in the file system.
+ */
 public class FileUrlDto {
-    String path;
-    String line;
+    String path; // absolute path starting with /
+    String line; // just the line number
 
     public FileUrlDto(String path, String line) {
-        this.path = path; // starts with /Users/...
-        this.line = line; // just the number
+        this.path = path;
+        this.line = line;
     }
 
     public FileUrlDto(CtElement ctElement) {
-        this.path = ctElement.getPosition().getFile().getPath(); // starts with /Users/...
-        this.line = String.valueOf(ctElement.getPosition().getLine()); // just the number
+        this.path = ctElement.getPosition().getFile().getPath();
+        this.line = String.valueOf(ctElement.getPosition().getLine());
     }
 
     public String getPath() {
         return path;
     }
+
     public String getLine() {
         return line;
     }
 
-    public String getUrl() {
+    public String buildUrl() {
         return "file://" + path + "#" + line;
     }
-    public String getVscodeUrl() {
+
+    public String buildVscodeUrl() {
         return "vscode://file" + path + ":" + line;
     }
-    public String getIntellijUrl() {
+
+    public String buildIntellijUrl() {
         return "idea://open?file=" + path + "&line=" + line;
     }
 }

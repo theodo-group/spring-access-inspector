@@ -85,14 +85,14 @@ public class HtmlTableGenerator {
         boolean openInNewTab = false;
         switch (editor) {
             case VSCODE:
-                url = annotation.url.getVscodeUrl();
+                url = annotation.url.buildVscodeUrl();
                 break;
             case INTELLIJ:
-                url = annotation.url.getIntellijUrl();
+                url = annotation.url.buildIntellijUrl();
                 break;
             case NONE:
             default:
-                url = annotation.url.getUrl();
+                url = annotation.url.buildUrl();
                 openInNewTab = true;
                 break;
         }
