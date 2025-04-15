@@ -81,22 +81,26 @@ public class HtmlTableGenerator {
     }
 
     private static void addTableRow(StringBuilder htmlTable, AnnotationDto annotation, Editor editor) {
-        String urlPrefix;
+        String url;
+        boolean openInNewTab = false;
         switch (editor) {
             case VSCODE:
-                urlPrefix = "vscode://file/";
+                url = annotation.url.buildVscodeUrl();
                 break;
             case INTELLIJ:
-                urlPrefix = "idea://open?file=";
+                url = annotation.url.buildIntellijUrl();
                 break;
             case NONE:
             default:
-                urlPrefix = "file://";
+                url = annotation.url.buildUrl();
+                openInNewTab = true;
                 break;
         }
         htmlTable.append("<tr>\n<td><a href='")
-                .append(StringEscapeUtils.escapeHtml4(urlPrefix + annotation.url()))
-                .append("'>")
+                .append(StringEscapeUtils.escapeHtml4(url))
+                .append("'")
+                .append(openInNewTab ? "target='_blank'" : "")
+                .append(">")
                 .append(StringEscapeUtils.escapeHtml4(annotation.endpoint()))
                 .append("</a></td>\n")
                 .append("<td>")
