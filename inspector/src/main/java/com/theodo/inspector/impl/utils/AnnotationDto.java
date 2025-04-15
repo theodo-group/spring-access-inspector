@@ -1,20 +1,16 @@
 package com.theodo.inspector.impl.utils;
 
 public class AnnotationDto {
-    String url;
+    FileUrlDto url;
     String endpoint;
     String method;
     String preAuthorize;
 
-    public AnnotationDto(String url, String endpoint, String method, String preAuthorize) {
+    public AnnotationDto(FileUrlDto url, String endpoint, String method, String preAuthorize) {
         this.url = url;
         this.endpoint = endpoint;
         this.method = method;
         this.preAuthorize = preAuthorize;
-    }
-    
-    public String url() {
-        return url;
     }
 
     public String endpoint() {
