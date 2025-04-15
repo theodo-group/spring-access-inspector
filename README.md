@@ -45,7 +45,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>1.2.1</version>
+           <version>1.2.2</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
            </configuration>
