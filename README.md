@@ -21,7 +21,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.2.1</version>
+           <version>2.2.2</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
            </configuration>
@@ -141,7 +141,7 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.2.1</version>
+           <version>2.2.2</version>
            <configuration>
              <projectBaseDir>${project.basedir}</projectBaseDir>
            </configuration>
