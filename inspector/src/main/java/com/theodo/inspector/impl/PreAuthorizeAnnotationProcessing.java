@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.theodo.inspector.AnnotationEvent;
 import com.theodo.inspector.impl.utils.AnnotationDto;
 import com.theodo.inspector.impl.utils.FileUrlDto;
 import com.theodo.inspector.impl.utils.LiteralExtraction;
@@ -24,13 +23,13 @@ import spoon.reflect.visitor.filter.TypeFilter;
 
 @Slf4j
 public class PreAuthorizeAnnotationProcessing {
-    public static List<AnnotationDto> visitAllAnnotations(CtModel astModel, AnnotationEvent annotationEvent) {
+    public static List<AnnotationDto> visitAllAnnotations(CtModel astModel) {
         List<AnnotationDto> annotations = new ArrayList<>();
 
         ControllerEndpointDiscovery.analyzeControllers(astModel.getRootPackage(),
                 (ctClass, ctMethod, verb, path) -> {
 
-                    String preAuthorize = analyzePreAuthorize(ctClass, ctMethod, annotationEvent);
+                    String preAuthorize = analyzePreAuthorize(ctClass, ctMethod);
                     FileUrlDto fileUrlDto = new FileUrlDto(ctMethod);
                     AnnotationDto annotation = new AnnotationDto(fileUrlDto, path, verb, preAuthorize);
                     annotations.add(annotation);
@@ -47,20 +46,14 @@ public class PreAuthorizeAnnotationProcessing {
         return annotations;
     }
 
-    private static String analyzePreAuthorize(CtClass<?> ctClass, CtMethod<?> ctMethod,
-            AnnotationEvent annotationEvent) {
+    private static String analyzePreAuthorize(CtClass<?> ctClass, CtMethod<?> ctMethod) {
         List<CtAnnotation<? extends Annotation>> ctPreAuthorizeAnnotations = getPreAuthorizeAnnotations(ctClass,
                 ctMethod);
         String preAuthorizeAnnotation = "🚨 No PreAuthorize annotation found";
-        FileUrlDto fileUrlDto = new FileUrlDto(ctMethod);
 
-        if (ctPreAuthorizeAnnotations.isEmpty()) {
-            annotationEvent.foundErroneousAnnotation(fileUrlDto.getPath());
-        } else {
+        if (!ctPreAuthorizeAnnotations.isEmpty()) {
             CtAnnotation<? extends Annotation> ctAnnotation = ctPreAuthorizeAnnotations.get(0);
-            if (ctAnnotation.getValues().isEmpty()) {
-                annotationEvent.foundErroneousAnnotation(fileUrlDto.getPath());
-            } else {
+            if (!ctAnnotation.getValues().isEmpty()) {
                 CtExpression<?> preAuthorizeSPEL = ctAnnotation.getValue("value");
                 preAuthorizeAnnotation = LiteralExtraction.extract(preAuthorizeSPEL, false);
             }

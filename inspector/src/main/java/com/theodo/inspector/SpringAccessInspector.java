@@ -25,11 +25,7 @@ import spoon.reflect.CtModel;
 
 
 @Slf4j
-public class SpringAccessInspector extends InspectorCommand implements AnnotationEvent {
-    
-    @Getter
-    private int errorCount = 0;
-    
+public class SpringAccessInspector extends InspectorCommand {
     public enum Editor {
         VSCODE,
         INTELLIJ,
@@ -57,7 +53,7 @@ public class SpringAccessInspector extends InspectorCommand implements Annotatio
             walk.forEach(pomFile -> {
                 CtModel astModel = ASTReader.readAst(pomFile); // Analyze JAVA AST
                 List<AnnotationDto> temporaryAnnotation = PreAuthorizeAnnotationProcessing
-                        .visitAllAnnotations(astModel, this);
+                        .visitAllAnnotations(astModel);
                 annotations.addAll(temporaryAnnotation);
 
             });
@@ -77,10 +73,5 @@ public class SpringAccessInspector extends InspectorCommand implements Annotatio
         return Files.walk(Paths.get(basePath))
                 .filter(path -> path.getFileName().toString().contains("pom.xml"))
                 .map(Path::toFile);
-    }
-
-    @Override
-    public void foundErroneousAnnotation(String sourceLocation) {
-        errorCount++;
     }
 }
