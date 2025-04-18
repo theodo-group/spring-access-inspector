@@ -65,9 +65,6 @@
                     <groupId>com.theodo</groupId>
                     <artifactId>spring-access-inspector-plugin</artifactId>
                     <version>2.2.2</version>
-                    <configuration>
-                        <projectBaseDir>${project.basedir}</projectBaseDir>
-                    </configuration>
                 </plugin>
 
                 <plugin>
