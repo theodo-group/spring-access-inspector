@@ -39,6 +39,18 @@ public class SpringAccessInspector extends InspectorCommand {
         this.projectDirectory = projectDirectory;
     }
 
+    public SpringAccessInspector() {
+        this.projectDirectory = ".";
+        this.htmlOutputFile = "./access_control.html";
+        this.editor = Editor.NONE;
+    }
+
+    public SpringAccessInspector(String projectDirectory, String htmlOutputFile, Editor editor) {
+        this.projectDirectory = projectDirectory;
+        this.htmlOutputFile = htmlOutputFile;
+        this.editor = editor;
+    }
+
     public static void main(String[] args) {
         Configurator.setLevel("com.theodo.tools", Level.INFO);
 
