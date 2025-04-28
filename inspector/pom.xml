@@ -6,7 +6,7 @@
 
     <groupId>com.theodo</groupId>
     <artifactId>spring-access-inspector</artifactId>
-    <version>2.2.2</version>
+    <version>2.2.3</version>
     <name>Spring access inspector</name>
     <description>Use Spoon AST analysis to discover and analyse @PreAuthorize annotations</description>
     <url>https://github.com/theodo-group/spring-access-inspector</url>
@@ -52,7 +52,7 @@
         <connection>scm:git:git://github.com/theodo-group/spring-access-inspector.git</connection>
         <developerConnection>scm:git:ssh://github.com/theodo-group/spring-access-inspector.git</developerConnection>
         <url>https://github.com/theodo-group/spring-access-inspector</url>
-        <tag>v2.2.2</tag>
+        <tag>v2.2.3</tag>
     </scm>
 
     <distributionManagement>
