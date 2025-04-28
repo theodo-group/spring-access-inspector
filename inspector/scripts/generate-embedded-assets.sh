@@ -15,8 +15,8 @@ set -e
 # ==========================
 
 JS_FILE="src/main/resources/sortTable.js"
-JAVA_FILE="target/generated-sources/embedded/com/theodo/inspector/impl/utils/EmbeddedAssets.java"
-PACKAGE_NAME="com.theodo.inspector.impl.utils"
+JAVA_FILE="target/generated-sources/embedded/com/theodo/inspector/utils/EmbeddedAssets.java"
+PACKAGE_NAME="com.theodo.inspector.utils"
 CONSTANT_NAME="SORT_TABLE_JS"
 
 # ==========================

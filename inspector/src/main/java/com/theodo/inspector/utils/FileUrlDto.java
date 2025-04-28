@@ -1,4 +1,4 @@
-package com.theodo.inspector.impl.utils;
+package com.theodo.inspector.utils;
 
 import spoon.reflect.declaration.CtElement;
 

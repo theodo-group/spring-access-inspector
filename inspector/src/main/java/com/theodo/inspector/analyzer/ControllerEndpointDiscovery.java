@@ -1,4 +1,4 @@
-package com.theodo.inspector.impl;
+package com.theodo.inspector.analyzer;
 
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtAnnotation;
@@ -8,7 +8,7 @@ import spoon.reflect.declaration.CtPackage;
 import spoon.reflect.visitor.CtScanner;
 import spoon.reflect.visitor.filter.TypeFilter;
 
-import static com.theodo.inspector.impl.utils.AnnotationHelpers.getAllAnnotationsForMethod;
+import static com.theodo.inspector.analyzer.AnnotationHelpers.getAllAnnotationsForMethod;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
@@ -16,14 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.theodo.inspector.impl.utils.LiteralExtraction;
-import com.theodo.inspector.impl.utils.UriNormalizer;
+import com.theodo.inspector.utils.UriNormalizer;
 
 public class ControllerEndpointDiscovery {
-    private static final Set<String> POSSIBLE_CLASS_CONTEXT =
-            Set.of("RestController", "RequestMapping"); // Annotation for Controller
-    private static final Set<String> POSSIBLE_MAPPINGS =
-            Set.of("DeleteMapping", "GetMapping", "PostMapping", "PutMapping", "PatchMapping"); // Annotations for methods
+    private static final Set<String> POSSIBLE_CLASS_CONTEXT = Set.of("RestController", "RequestMapping"); // Annotation for Controller
+    private static final Set<String> POSSIBLE_MAPPINGS = Set.of("DeleteMapping", "GetMapping", "PostMapping", "PutMapping", "PatchMapping"); // Annotations for methods
 
     public static void analyzeControllers(CtPackage rootPackage, EndpointDiscoveryEvent discoveryEvent) {
         List<CtClass<?>> ctClasses = rootPackage.getElements(new TypeFilter<>(CtClass.class));
@@ -31,7 +28,8 @@ public class ControllerEndpointDiscovery {
             List<CtAnnotation<? extends Annotation>> annotations = ctClass.getAnnotations();
             List<CtAnnotation<? extends Annotation>> matchingAnnotations = filterControllerAnnotations(annotations);
 
-            if (matchingAnnotations.isEmpty()) continue; // Not a controller
+            if (matchingAnnotations.isEmpty())
+                continue; // Not a controller
 
             Collection<String> controllerContext = getControllerUriBaseContext(matchingAnnotations);
             analyzeMethodsMappings(ctClass, controllerContext, discoveryEvent);
@@ -39,8 +37,8 @@ public class ControllerEndpointDiscovery {
     }
 
     private static List<CtAnnotation<? extends Annotation>> filterControllerAnnotations(List<CtAnnotation<? extends Annotation>> annotations) {
-        return annotations.stream().filter(ctAnnotation ->
-                POSSIBLE_CLASS_CONTEXT.contains(ctAnnotation.getName())).toList();
+        return annotations.stream().filter(ctAnnotation -> POSSIBLE_CLASS_CONTEXT.contains(ctAnnotation.getName()))
+                .toList();
     }
 
     private static Collection<String> getControllerUriBaseContext(List<CtAnnotation<? extends Annotation>> matchingAnnotations) {
@@ -48,9 +46,8 @@ public class ControllerEndpointDiscovery {
                 .flatMap(annotation -> getAnnotationContextValues(annotation).stream()).toList();
 
         List<String> nonEmptyContexts = contexts.stream().filter(s -> !s.isBlank()).toList();
-        if (nonEmptyContexts.isEmpty()) {
-            return List.of("");
-        }
+        if (nonEmptyContexts.isEmpty()) return List.of("");
+        
         return nonEmptyContexts;
     }
 
@@ -102,7 +99,6 @@ public class ControllerEndpointDiscovery {
         });
     }
 
-
     private static class AnnotationVisitor extends CtScanner {
         private final Set<String> literals = new HashSet<>();
 
@@ -129,7 +125,8 @@ public class ControllerEndpointDiscovery {
             List<CtExpression<?>> elements = newArray.getElements();
             for (CtExpression<?> element : elements) {
                 String extract = LiteralExtraction.extract(element, true);
-                if (extract != null) literals.add(extract);
+                if (extract != null)
+                    literals.add(extract);
             }
         }
     }

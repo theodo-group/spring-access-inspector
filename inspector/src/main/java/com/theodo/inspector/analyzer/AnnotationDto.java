@@ -1,4 +1,6 @@
-package com.theodo.inspector.impl.utils;
+package com.theodo.inspector.analyzer;
+
+import com.theodo.inspector.utils.FileUrlDto;
 
 public class AnnotationDto {
     FileUrlDto url;
@@ -23,5 +25,9 @@ public class AnnotationDto {
 
     public String preAuthorize() {
         return preAuthorize;
+    }
+
+    public FileUrlDto url() {
+        return url;
     }
 }

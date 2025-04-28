@@ -12,17 +12,16 @@ import java.util.stream.Stream;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 
+import com.theodo.inspector.analyzer.ASTReader;
+import com.theodo.inspector.analyzer.AnnotationDto;
+import com.theodo.inspector.analyzer.AnnotationProcessing;
+import com.theodo.inspector.builder.HtmlBuilder;
 import com.theodo.inspector.cli.InspectorCommand;
-import com.theodo.inspector.impl.PreAuthorizeAnnotationProcessing;
-import com.theodo.inspector.impl.ast.ASTReader;
-import com.theodo.inspector.impl.utils.AnnotationDto;
-import com.theodo.inspector.impl.utils.HtmlTableGenerator;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 import spoon.reflect.CtModel;
-
 
 @Slf4j
 public class SpringAccessInspector extends InspectorCommand {
@@ -64,7 +63,7 @@ public class SpringAccessInspector extends InspectorCommand {
             List<AnnotationDto> annotations = new ArrayList<>();
             walk.forEach(pomFile -> {
                 CtModel astModel = ASTReader.readAst(pomFile); // Analyze JAVA AST
-                List<AnnotationDto> temporaryAnnotation = PreAuthorizeAnnotationProcessing
+                List<AnnotationDto> temporaryAnnotation = AnnotationProcessing
                         .visitAllAnnotations(astModel);
                 annotations.addAll(temporaryAnnotation);
 
@@ -73,10 +72,10 @@ public class SpringAccessInspector extends InspectorCommand {
         }
     }
 
-    @Override
     public Integer call() throws Exception {
         List<AnnotationDto> annotations = analyzer();
-        HtmlTableGenerator.generateHtmlTable(annotations, this.htmlOutputFile, this.editor);
+
+        HtmlBuilder.generateHtmlTable(annotations, this.htmlOutputFile, this.editor);
         return 0;
     }
 

@@ -1,4 +1,4 @@
-package com.theodo.inspector.impl.utils;
+package com.theodo.inspector.builder;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -7,8 +7,10 @@ import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 
 import com.theodo.inspector.SpringAccessInspector.Editor;
+import com.theodo.inspector.analyzer.AnnotationDto;
+import com.theodo.inspector.utils.EmbeddedAssets;
 
-public class HtmlTableGenerator {
+public class HtmlBuilder {
 
     public static void generateHtmlTable(List<AnnotationDto> annotations, String htmlOutputFile, Editor editor) {
         // Generate the HTML table
@@ -48,14 +50,14 @@ public class HtmlTableGenerator {
         boolean openInNewTab = false;
         switch (editor) {
             case VSCODE:
-                url = annotation.url.buildVscodeUrl();
+                url = annotation.url().buildVscodeUrl();
                 break;
             case INTELLIJ:
-                url = annotation.url.buildIntellijUrl();
+                url = annotation.url().buildIntellijUrl();
                 break;
             case NONE:
             default:
-                url = annotation.url.buildUrl();
+                url = annotation.url().buildUrl();
                 openInNewTab = true;
                 break;
         }

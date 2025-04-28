@@ -1,12 +1,10 @@
-package com.theodo.inspector.impl;
+package com.theodo.inspector.analyzer;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.theodo.inspector.impl.utils.AnnotationDto;
-import com.theodo.inspector.impl.utils.FileUrlDto;
-import com.theodo.inspector.impl.utils.LiteralExtraction;
+import com.theodo.inspector.utils.FileUrlDto;
 
 import lombok.extern.slf4j.Slf4j;
 import spoon.reflect.CtModel;
@@ -22,7 +20,7 @@ import spoon.reflect.visitor.filter.FilteringOperator;
 import spoon.reflect.visitor.filter.TypeFilter;
 
 @Slf4j
-public class PreAuthorizeAnnotationProcessing {
+public class AnnotationProcessing {
     public static List<AnnotationDto> visitAllAnnotations(CtModel astModel) {
         List<AnnotationDto> annotations = new ArrayList<>();
 

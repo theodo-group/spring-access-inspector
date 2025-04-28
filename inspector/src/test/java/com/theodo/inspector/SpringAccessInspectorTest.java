@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.theodo.inspector.impl.utils.AnnotationDto;
+import com.theodo.inspector.analyzer.AnnotationDto;
 
 import lombok.extern.slf4j.Slf4j;
 

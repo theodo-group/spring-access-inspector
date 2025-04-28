@@ -1,4 +1,4 @@
-package com.theodo.inspector.impl;
+package com.theodo.inspector.analyzer;
 
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtMethod;

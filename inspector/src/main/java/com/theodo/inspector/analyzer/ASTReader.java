@@ -1,4 +1,4 @@
-package com.theodo.inspector.impl.ast;
+package com.theodo.inspector.analyzer;
 
 import java.io.File;
 
