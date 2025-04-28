@@ -104,7 +104,7 @@ public class HtmlTableGenerator {
                 .append(StringEscapeUtils.escapeHtml4(annotation.endpoint()))
                 .append("</a></td>\n")
                 .append("<td>")
-                .append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", "")))
+                .append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", "").toUpperCase()))
                 .append("</td>\n")
                 .append("<td>")
                 .append(StringEscapeUtils.escapeHtml4(annotation.preAuthorize()))
