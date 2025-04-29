@@ -16,15 +16,11 @@ public class HtmlBuilder {
         // Generate the HTML table
         StringBuilder htmlTable = new StringBuilder();
 
-        htmlTable.append("\n<head>\n<style>\n")
-                .append("table {\nborder-collapse: collapse;\nwidth:100%;\n}\n")
+        htmlTable.append("\n<head>\n<style>\ntable {\nborder-collapse: collapse;\nwidth:100%;\n}\n")
                 .append("th, td {\npadding: 8px;\ntext-align: left;\nborder-bottom: 1px solid #ddd;\n}\n")
                 .append("th {\nbackground-color: #f2f2f2;\ncursor: pointer;\nposition: relative;\n}\n")
-                .append("th .sort-icon {\nfont-size: 16px;\nmargin-left: 5px;\n}\n")
-                .append("</style>\n<script>\n")
-                .append(EmbeddedAssets.SORT_TABLE_JS)
-                .append("\n</script>\n</head>\n<body>\n")
-                .append("<table>\n<tr>\n")
+                .append("th .sort-icon {\nfont-size: 16px;\nmargin-left: 5px;\n}\n</style>\n<script>\n")
+                .append(EmbeddedAssets.SORT_TABLE_JS).append("\n</script>\n</head>\n<body>\n<table>\n<tr>\n")
                 .append("<th onclick=\"sortTable(0)\">Endpoint<span class=\"sort-icon\">▼</span></th>\n")
                 .append("<th onclick=\"sortTable(1)\">Method<span class=\"sort-icon\"></span></th>\n")
                 .append("<th onclick=\"sortTable(2)\">PreAuthorize<span class=\"sort-icon\"></span></th>\n</tr>\n");
@@ -61,18 +57,11 @@ public class HtmlBuilder {
                 openInNewTab = true;
                 break;
         }
-        htmlTable.append("<tr>\n<td><a href='")
-                .append(StringEscapeUtils.escapeHtml4(url))
-                .append("'")
-                .append(openInNewTab ? "target='_blank'" : "")
-                .append(">")
-                .append(StringEscapeUtils.escapeHtml4(annotation.endpoint()))
-                .append("</a></td>\n")
-                .append("<td>")
+        htmlTable.append("<tr>\n<td><a href='").append(StringEscapeUtils.escapeHtml4(url)).append("'")
+                .append(openInNewTab ? "target='_blank'" : "").append(">")
+                .append(StringEscapeUtils.escapeHtml4(annotation.endpoint())).append("</a></td>\n").append("<td>")
                 .append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", "").toUpperCase()))
-                .append("</td>\n")
-                .append("<td>")
-                .append(StringEscapeUtils.escapeHtml4(annotation.preAuthorize()))
+                .append("</td>\n").append("<td>").append(StringEscapeUtils.escapeHtml4(annotation.preAuthorize()))
                 .append("</td>\n</tr>\n");
     }
 }

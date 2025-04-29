@@ -24,29 +24,23 @@ public class AnnotationProcessing {
     public static List<AnnotationDto> visitAllAnnotations(CtModel astModel) {
         List<AnnotationDto> annotations = new ArrayList<>();
 
-        ControllerEndpointDiscovery.analyzeControllers(astModel.getRootPackage(),
-                (ctClass, ctMethod, verb, path) -> {
+        ControllerEndpointDiscovery.analyzeControllers(astModel.getRootPackage(), (ctClass, ctMethod, verb, path) -> {
 
-                    String preAuthorize = analyzePreAuthorize(ctClass, ctMethod);
-                    FileUrlDto fileUrlDto = new FileUrlDto(ctMethod);
-                    AnnotationDto annotation = new AnnotationDto(fileUrlDto, path, verb, preAuthorize);
-                    annotations.add(annotation);
+            String preAuthorize = analyzePreAuthorize(ctClass, ctMethod);
+            FileUrlDto fileUrlDto = new FileUrlDto(ctMethod);
+            AnnotationDto annotation = new AnnotationDto(fileUrlDto, path, verb, preAuthorize);
+            annotations.add(annotation);
 
-                    log.info(
-                            "\n\n\n🪴 Found '{}' endpoint '{}' in method '{}' in class '{}' at file: {}.\nPreAuthorize: {}\n",
-                            verb, path,
-                            ctMethod.getSimpleName(),
-                            ctClass.getSimpleName(),
-                            fileUrlDto.getPath(),
-                            preAuthorize);
+            log.info("\n\n\n🪴 Found '{}' endpoint '{}' in method '{}' in class '{}' at file: {}.\nPreAuthorize: {}\n",
+                    verb, path, ctMethod.getSimpleName(), ctClass.getSimpleName(), fileUrlDto.getPath(), preAuthorize);
 
-                });
+        });
         return annotations;
     }
 
     private static String analyzePreAuthorize(CtClass<?> ctClass, CtMethod<?> ctMethod) {
-        List<CtAnnotation<? extends Annotation>> ctPreAuthorizeAnnotations = getPreAuthorizeAnnotations(ctClass,
-                ctMethod);
+        List<CtAnnotation<? extends Annotation>> ctPreAuthorizeAnnotations =
+                getPreAuthorizeAnnotations(ctClass, ctMethod);
         String preAuthorizeAnnotation = "🚨 No PreAuthorize annotation found";
 
         if (!ctPreAuthorizeAnnotations.isEmpty()) {
@@ -61,9 +55,7 @@ public class AnnotationProcessing {
 
     private static List<CtAnnotation<? extends Annotation>> getPreAuthorizeAnnotations(CtClass<?> ctClass,
             CtMethod<?> ctMethod) {
-        List<CtAnnotation<?>> annotations = ctMethod.getElements(new TypeFilter<>(CtAnnotation.class)); // annotations
-                                                                                                        // found on
-                                                                                                        // methods
+        List<CtAnnotation<?>> annotations = ctMethod.getElements(new TypeFilter<>(CtAnnotation.class)); // annotations found on methods
         annotations.addAll(ctClass.getElements(getFilter())); // annotations found on class
         return addPreAuthorizedAnnotations(annotations);
     }
@@ -79,8 +71,7 @@ public class AnnotationProcessing {
             if (isPreAuthorizeAnnotation(annotation.getAnnotationType()))
                 tmp.add(annotation);
             else {
-                // Annotation can be a homemade annotation that is annotated with PreAuthorize
-                // itself (recursive search)
+                // Annotation can be a homemade annotation that is annotated with PreAuthorize itself (recursive search)
                 CtTypeReference<?> annotationType = annotation.getAnnotationType();
                 CtType<?> typeDeclaration = annotationType.getTypeDeclaration();
                 if (typeDeclaration != null && !typeDeclaration.getAnnotations().isEmpty()) {
@@ -95,15 +86,14 @@ public class AnnotationProcessing {
     }
 
     private static boolean isPreAuthorizeAnnotation(CtTypeReference<? extends Annotation> annotationType) {
-        boolean containsPreAuthorize = annotationType.getQualifiedName().contains("PreAuthorize") &&
-                annotationType.getQualifiedName().contains("org.springframework.security");
-        boolean containsSecured = annotationType.getQualifiedName().contains("Secured") &&
-                annotationType.getQualifiedName().contains("org.springframework.security");
-        // RolesAllowed is in javax.annotation.security or jakarta.annotation.security
-        // depending on the version of SpringBoot
-        boolean containsRolesAllowed = annotationType.getQualifiedName().contains("RolesAllowed") &&
-                (annotationType.getQualifiedName().contains("javax.annotation.security") ||
-                        annotationType.getQualifiedName().contains("jakarta.annotation.security"));
+        boolean containsPreAuthorize = annotationType.getQualifiedName().contains("PreAuthorize")
+                && annotationType.getQualifiedName().contains("org.springframework.security");
+        boolean containsSecured = annotationType.getQualifiedName().contains("Secured")
+                && annotationType.getQualifiedName().contains("org.springframework.security");
+        // RolesAllowed is in javax.annotation.security or jakarta.annotation.security depending on the version of SpringBoot
+        boolean containsRolesAllowed = annotationType.getQualifiedName().contains("RolesAllowed")
+                && (annotationType.getQualifiedName().contains("javax.annotation.security")
+                        || annotationType.getQualifiedName().contains("jakarta.annotation.security"));
         return containsPreAuthorize || containsSecured || containsRolesAllowed;
     }
 

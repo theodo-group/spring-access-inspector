@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Set;
 
 public class AnnotationHelpers {
-    // Search all annotations of a method, even if annotation are set on a super-class or on an interface
+    // Search all annotations of a method, even if annotation are set on a super-class or on an
+    // interface
     public static List<CtAnnotation<? extends Annotation>> getAllAnnotationsForMethod(CtMethod<?> ctMethod) {
         List<CtAnnotation<? extends Annotation>> methodAnnotations = new ArrayList<>(ctMethod.getAnnotations());
         CtType<?> declaringType = ctMethod.getDeclaringType();
-        if (declaringType == null) return methodAnnotations;
+        if (declaringType == null)
+            return methodAnnotations;
 
         // Add all method annotations found in possible interfaces and super class
         Set<CtTypeReference<?>> superInterfaces = new HashSet<>(declaringType.getSuperInterfaces());

@@ -88,8 +88,8 @@ public class LiteralExtraction {
                                 List<CtTypeMember> typeMembers = declaringTypeThatContainsField.getTypeMembers();
                                 typeMembers.stream().filter(ctTypeMember -> ctTypeMember instanceof CtClass<?>)
                                         .forEach(ctSubclassType -> {
-                                            Collection<CtFieldReference<?>> allFields = ((CtClass<?>) ctSubclassType)
-                                                    .getAllFields();
+                                            Collection<CtFieldReference<?>> allFields =
+                                                    ((CtClass<?>) ctSubclassType).getAllFields();
                                             fuzzySearchOnFieldsName(ctVariableReference, allFields);
                                         });
                             }
@@ -103,8 +103,7 @@ public class LiteralExtraction {
                 private <T> void fuzzySearchOnFieldsName(CtVariableReference<T> variable,
                         Collection<CtFieldReference<?>> allFields) {
                     for (CtFieldReference<?> oneFieldRef : allFields) {
-                        // CONTAINS and NOT EQUALS, there is a BUG (?) in spoon (fields from inner
-                        // classes have wrong simple names)
+                        // CONTAINS and NOT EQUALS, there is a BUG (?) in spoon (fields from inner classes have wrong simple names)
                         if (variable.getSimpleName().contains(oneFieldRef.getSimpleName())) {
                             CtField<?> fieldRefDeclaration = oneFieldRef.getDeclaration();
                             if (fieldRefDeclaration != null && fieldRefDeclaration.getDefaultExpression() != null) {

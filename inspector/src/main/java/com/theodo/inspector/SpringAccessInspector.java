@@ -26,9 +26,7 @@ import spoon.reflect.CtModel;
 @Slf4j
 public class SpringAccessInspector extends InspectorCommand {
     public enum Editor {
-        VSCODE,
-        INTELLIJ,
-        NONE
+        VSCODE, INTELLIJ, NONE
     }
 
     @Getter
@@ -63,8 +61,7 @@ public class SpringAccessInspector extends InspectorCommand {
             List<AnnotationDto> annotations = new ArrayList<>();
             walk.forEach(pomFile -> {
                 CtModel astModel = ASTReader.readAst(pomFile); // Analyze JAVA AST
-                List<AnnotationDto> temporaryAnnotation = AnnotationProcessing
-                        .visitAllAnnotations(astModel);
+                List<AnnotationDto> temporaryAnnotation = AnnotationProcessing.visitAllAnnotations(astModel);
                 annotations.addAll(temporaryAnnotation);
 
             });
@@ -81,8 +78,7 @@ public class SpringAccessInspector extends InspectorCommand {
 
     public static Stream<File> findPoms(String basePath) throws IOException {
         // noinspection resource
-        return Files.walk(Paths.get(basePath))
-                .filter(path -> path.getFileName().toString().contains("pom.xml"))
+        return Files.walk(Paths.get(basePath)).filter(path -> path.getFileName().toString().contains("pom.xml"))
                 .map(Path::toFile);
     }
 }

@@ -3,8 +3,7 @@ package com.theodo.inspector.utils;
 import spoon.reflect.declaration.CtElement;
 
 /**
- * Represents a file path+line with methods to generate URLs for
- * specific IDEs (e.g., VSCode, IntelliJ) or directly in the file system.
+ * Represents a file path+line with methods to generate URLs for specific IDEs (e.g., VSCode, IntelliJ) or directly in the file system.
  */
 public class FileUrlDto {
     String path; // absolute path starting with /

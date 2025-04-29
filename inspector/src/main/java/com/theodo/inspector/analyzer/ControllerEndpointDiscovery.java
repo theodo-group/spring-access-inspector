@@ -19,8 +19,11 @@ import java.util.Set;
 import com.theodo.inspector.utils.UriNormalizer;
 
 public class ControllerEndpointDiscovery {
+
     private static final Set<String> POSSIBLE_CLASS_CONTEXT = Set.of("RestController", "RequestMapping"); // Annotation for Controller
-    private static final Set<String> POSSIBLE_MAPPINGS = Set.of("DeleteMapping", "GetMapping", "PostMapping", "PutMapping", "PatchMapping"); // Annotations for methods
+
+    private static final Set<String> POSSIBLE_MAPPINGS =
+            Set.of("DeleteMapping", "GetMapping", "PostMapping", "PutMapping", "PatchMapping"); // Annotations for methods
 
     public static void analyzeControllers(CtPackage rootPackage, EndpointDiscoveryEvent discoveryEvent) {
         List<CtClass<?>> ctClasses = rootPackage.getElements(new TypeFilter<>(CtClass.class));
@@ -36,18 +39,21 @@ public class ControllerEndpointDiscovery {
         }
     }
 
-    private static List<CtAnnotation<? extends Annotation>> filterControllerAnnotations(List<CtAnnotation<? extends Annotation>> annotations) {
+    private static List<CtAnnotation<? extends Annotation>> filterControllerAnnotations(
+            List<CtAnnotation<? extends Annotation>> annotations) {
         return annotations.stream().filter(ctAnnotation -> POSSIBLE_CLASS_CONTEXT.contains(ctAnnotation.getName()))
                 .toList();
     }
 
-    private static Collection<String> getControllerUriBaseContext(List<CtAnnotation<? extends Annotation>> matchingAnnotations) {
+    private static Collection<String> getControllerUriBaseContext(
+            List<CtAnnotation<? extends Annotation>> matchingAnnotations) {
         List<String> contexts = matchingAnnotations.stream()
                 .flatMap(annotation -> getAnnotationContextValues(annotation).stream()).toList();
 
         List<String> nonEmptyContexts = contexts.stream().filter(s -> !s.isBlank()).toList();
-        if (nonEmptyContexts.isEmpty()) return List.of("");
-        
+        if (nonEmptyContexts.isEmpty())
+            return List.of("");
+
         return nonEmptyContexts;
     }
 
@@ -64,7 +70,8 @@ public class ControllerEndpointDiscovery {
         return visitor.literals;
     }
 
-    private static void analyzeMethodsMappings(CtClass<?> ctClass, Collection<String> controllerContext, EndpointDiscoveryEvent discoveryEvent) {
+    private static void analyzeMethodsMappings(CtClass<?> ctClass, Collection<String> controllerContext,
+            EndpointDiscoveryEvent discoveryEvent) {
         ctClass.accept(new CtScanner() {
             @Override
             public <T> void visitCtMethod(CtMethod<T> ctMethod) {
@@ -81,7 +88,8 @@ public class ControllerEndpointDiscovery {
                 });
             }
 
-            private <T> void foundEndpoint(CtMethod<T> ctMethod, CtAnnotation<? extends Annotation> methodAnnotation, String verb) {
+            private <T> void foundEndpoint(CtMethod<T> ctMethod, CtAnnotation<? extends Annotation> methodAnnotation,
+                    String verb) {
                 Collection<String> methodContext = getAnnotationContextValues(methodAnnotation);
                 if (methodContext.isEmpty()) {
                     methodContext.add("");
@@ -89,7 +97,8 @@ public class ControllerEndpointDiscovery {
                 for (String context : methodContext) {
                     for (String controller : controllerContext) {
                         String exposedEndpoint = controller + UriNormalizer.normalizeUri(context);
-                        if (exposedEndpoint.isBlank()) continue;
+                        if (exposedEndpoint.isBlank())
+                            continue;
 
                         String path = UriNormalizer.normalizeUri(exposedEndpoint);
                         discoveryEvent.foundEndpoint(ctClass, ctMethod, verb, path);
@@ -105,19 +114,22 @@ public class ControllerEndpointDiscovery {
         @Override
         public <T> void visitCtLiteral(CtLiteral<T> literal) {
             String extract = LiteralExtraction.extract(literal, true);
-            if (extract != null) literals.add(extract);
+            if (extract != null)
+                literals.add(extract);
         }
 
         @Override
         public <T> void visitCtFieldRead(CtFieldRead<T> fieldRead) {
             String extract = LiteralExtraction.extract(fieldRead, true);
-            if (extract != null) literals.add(extract);
+            if (extract != null)
+                literals.add(extract);
         }
 
         @Override
         public <T> void visitCtVariableRead(CtVariableRead<T> variableRead) {
             String extract = LiteralExtraction.extract(variableRead, true);
-            if (extract != null) literals.add(extract);
+            if (extract != null)
+                literals.add(extract);
         }
 
         @Override
