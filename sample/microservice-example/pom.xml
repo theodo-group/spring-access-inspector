@@ -60,10 +60,7 @@
                 <plugin>
                     <groupId>com.theodo</groupId>
                     <artifactId>inspector-maven-plugin</artifactId>
-                    <version>1.2.2</version>
-                    <configuration>
-                        <projectBaseDir>${project.basedir}</projectBaseDir>
-                    </configuration>
+                    <version>1.2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>

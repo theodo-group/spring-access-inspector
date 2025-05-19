@@ -6,7 +6,7 @@
 
     <groupId>com.theodo</groupId>
     <artifactId>spring-access-inspector</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.4</version>
     <name>Spring access inspector</name>
     <description>Use Spoon AST analysis to discover and analyse @PreAuthorize annotations</description>
     <url>https://github.com/theodo-group/spring-access-inspector</url>
@@ -52,7 +52,7 @@
         <connection>scm:git:git://github.com/theodo-group/spring-access-inspector.git</connection>
         <developerConnection>scm:git:ssh://github.com/theodo-group/spring-access-inspector.git</developerConnection>
         <url>https://github.com/theodo-group/spring-access-inspector</url>
-        <tag>v1.2.2</tag>
+        <tag>v1.2.4</tag>
     </scm>
 
     <distributionManagement>
@@ -166,6 +166,47 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-embedded-assets</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>bash</executable>
+                            <arguments>
+                                <argument>${project.basedir}/scripts/generate-embedded-assets.sh</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-generated-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated-sources/embedded</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
