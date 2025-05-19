@@ -10,7 +10,7 @@ class UnitTest {
     @BeforeAll
     static void setup() {
         Configurator.initialize("config", TestUtils.getConfigLocation(currentDirectory));
-        sampleProjectRootPath = TestUtils.getDirectory(currentDirectory, "sample/microservice-example")
-                .getAbsolutePath();
+        sampleProjectRootPath =
+                TestUtils.getDirectory(currentDirectory, "sample/microservice-example").getAbsolutePath();
     }
 }

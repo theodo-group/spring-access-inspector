@@ -43,10 +43,12 @@ public class InspectorMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         try {
-            SpringAccessInspector inspector = new SpringAccessInspector(buildProjectDirectory(), buildHtmlOutputFile(), buildEditor());
+            SpringAccessInspector inspector =
+                    new SpringAccessInspector(buildProjectDirectory(), buildHtmlOutputFile(), buildEditor());
             inspector.call();
         } catch (Exception e) {
-            throw new MojoExecutionException(String.format("Exception occurred while inspecting project %s", projectBaseDir), e);
+            throw new MojoExecutionException(
+                    String.format("Exception occurred while inspecting project %s", projectBaseDir), e);
         }
     }
 }

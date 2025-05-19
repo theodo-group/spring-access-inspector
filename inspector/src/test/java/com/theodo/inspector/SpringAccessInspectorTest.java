@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.theodo.inspector.impl.utils.AnnotationDto;
+import com.theodo.inspector.analyzer.AnnotationDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,20 +33,17 @@ class SpringAccessInspectorTest extends UnitTest {
     @Test
     void testRolesAllowed() {
 
-        assertEquals(List.of(
-                "GetMapping /webclient/v2/cars 🚨 No PreAuthorize annotation found",
+        assertEquals(List.of("GetMapping /webclient/v2/cars 🚨 No PreAuthorize annotation found",
                 "GetMapping /webclient/v3/cars/{carsId}/details ROLE_USER",
-                "PostMapping /webclient/v1/cars ROLE_ADMIN"),
-                getAnnotationsForEndpoint(annotations, "cars"));
+                "PostMapping /webclient/v1/cars ROLE_ADMIN"), getAnnotationsForEndpoint(annotations, "cars"));
 
     }
 
     @Test
     void testPreAuthorizeWithDefaultFunctions() {
 
-        assertEquals(List.of(
-                "GetMapping /houses/v1/house isAuthenticated()",
-                "PostMapping /houses/v1/house permitAll()"),
+        assertEquals(
+                List.of("GetMapping /houses/v1/house isAuthenticated()", "PostMapping /houses/v1/house permitAll()"),
                 getAnnotationsForEndpoint(annotations, "houses"));
 
     }
@@ -54,9 +51,7 @@ class SpringAccessInspectorTest extends UnitTest {
     @Test
     void testPreAuthorizeOnController() {
 
-        assertEquals(List.of(
-                "GetMapping /trees hasRole(USER)",
-                "PostMapping /trees hasRole(ADMIN)"),
+        assertEquals(List.of("GetMapping /trees hasRole(USER)", "PostMapping /trees hasRole(ADMIN)"),
                 getAnnotationsForEndpoint(annotations, "trees"));
 
     }
@@ -64,13 +59,12 @@ class SpringAccessInspectorTest extends UnitTest {
     @Test
     void testSecured() {
 
-        assertEquals(List.of(
-                "DeleteMapping /another/delete ROLE_ADMIN",
-                "DeleteMapping /another/{projectId}/{info} ROLE_ADMIN",
-                "PutMapping /another/upload ROLE_USER",
-                "PutMapping /another/{projectId} ROLE_USER",
-                "RequestMapping /another/modify 🚨 No PreAuthorize annotation found",
-                "RequestMapping /another/{projectId} 🚨 No PreAuthorize annotation found"),
+        assertEquals(
+                List.of("DeleteMapping /another/delete ROLE_ADMIN",
+                        "DeleteMapping /another/{projectId}/{info} ROLE_ADMIN", "PutMapping /another/upload ROLE_USER",
+                        "PutMapping /another/{projectId} ROLE_USER",
+                        "RequestMapping /another/modify 🚨 No PreAuthorize annotation found",
+                        "RequestMapping /another/{projectId} 🚨 No PreAuthorize annotation found"),
                 getAnnotationsForEndpoint(annotations, "another"));
 
     }
@@ -78,9 +72,9 @@ class SpringAccessInspectorTest extends UnitTest {
     private List<String> getAnnotationsForEndpoint(List<AnnotationDto> annotations, String endpoint) {
         List<String> filteredAnnotations = new ArrayList<>();
 
-        annotations.stream().filter(annotation -> annotation.endpoint().contains(endpoint))
-                .map(annotation -> "%s %s %s".formatted(annotation.method(), annotation.endpoint(),
-                        annotation.preAuthorize()))
+        annotations
+                .stream().filter(annotation -> annotation.endpoint().contains(endpoint)).map(annotation -> "%s %s %s"
+                        .formatted(annotation.method(), annotation.endpoint(), annotation.preAuthorize()))
                 .forEach(filteredAnnotations::add);
         filteredAnnotations.sort(Comparator.naturalOrder());
 

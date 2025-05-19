@@ -1,9 +1,10 @@
-package com.theodo.inspector.impl.utils;
+package com.theodo.inspector.utils;
 
 public class UriNormalizer {
     // Make all URI looks like "/something/other/{param}/other2/{param}
     public static String normalizeUri(String methodContext) {
-        if (methodContext == null) return null;
+        if (methodContext == null)
+            return null;
 
         // ensure URI starts with "/"
         if (!methodContext.startsWith("/")) {
@@ -11,8 +12,8 @@ public class UriNormalizer {
         }
 
         // remove trailing "/"
-        if(methodContext.endsWith("/")){
-            methodContext = methodContext.substring(0,methodContext.length() - 1);
+        if (methodContext.endsWith("/")) {
+            methodContext = methodContext.substring(0, methodContext.length() - 1);
         }
 
         return methodContext;
