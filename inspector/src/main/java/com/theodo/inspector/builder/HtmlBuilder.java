@@ -17,13 +17,13 @@ public class HtmlBuilder {
         StringBuilder htmlTable = new StringBuilder();
 
         htmlTable.append("\n<head>\n<style>\ntable {\nborder-collapse: collapse;\nwidth:100%;\n}\n")
-                .append("th, td {\npadding: 8px;\ntext-align: left;\nborder-bottom: 1px solid #ddd;\n}\n")
-                .append("th {\nbackground-color: #f2f2f2;\ncursor: pointer;\nposition: relative;\n}\n")
-                .append("th .sort-icon {\nfont-size: 16px;\nmargin-left: 5px;\n}\n</style>\n<script>\n")
-                .append(EmbeddedAssets.SORT_TABLE_JS).append("\n</script>\n</head>\n<body>\n<table>\n<tr>\n")
-                .append("<th onclick=\"sortTable(0)\">Endpoint<span class=\"sort-icon\">▼</span></th>\n")
-                .append("<th onclick=\"sortTable(1)\">Method<span class=\"sort-icon\"></span></th>\n")
-                .append("<th onclick=\"sortTable(2)\">PreAuthorize<span class=\"sort-icon\"></span></th>\n</tr>\n");
+            .append("th, td {\npadding: 8px;\ntext-align: left;\nborder-bottom: 1px solid #ddd;\n}\n")
+            .append("th {\nbackground-color: #f2f2f2;\ncursor: pointer;\nposition: relative;\n}\n")
+            .append("th .sort-icon {\nfont-size: 16px;\nmargin-left: 5px;\n}\n</style>\n<script>\n")
+            .append(EmbeddedAssets.SORT_TABLE_JS).append("\n</script>\n</head>\n<body>\n<table>\n<tr>\n")
+            .append("<th onclick=\"sortTable(0)\">Endpoint<span class=\"sort-icon\">↕</span></th>\n")
+            .append("<th onclick=\"sortTable(1)\">Method<span class=\"sort-icon\">↕</span></th>\n")
+            .append("<th onclick=\"sortTable(2)\">PreAuthorize<span class=\"sort-icon\">↕</span></th>\n</tr>\n");
 
         // Iterate over the list and generate each row of the table
         for (AnnotationDto annotation : annotations) {
