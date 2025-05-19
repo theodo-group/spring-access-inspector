@@ -21,10 +21,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>1.2.2</version>
-           <configuration>
-             <projectBaseDir>${project.basedir}</projectBaseDir>
-           </configuration>
+           <version>1.2.4</version>
          </plugin>
          <!-- ...existing plugins... -->
        </plugins>
@@ -45,10 +42,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.2.2</version>
-           <configuration>
-             <projectBaseDir>${project.basedir}</projectBaseDir>
-           </configuration>
+           <version>2.2.4</version>
          </plugin>
          <!-- ...existing plugins... -->
        </plugins>
@@ -141,10 +135,7 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>1.2.2</version>
-           <configuration>
-             <projectBaseDir>${project.basedir}</projectBaseDir>
-           </configuration>
+           <version>1.2.4</version>
          </plugin>
        </plugins>
      </pluginManagement>
@@ -153,9 +144,35 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
 
    **Configuration Options**:
 
-   - `projectBaseDir`: Specifies the base directory of the project to analyze. Defaults to `${project.basedir}`.
-   - `htmlOutputFile`: Specifies the path to the output HTML file. Defaults to `./access_control.html`.
-   - `editor`: Specifies the editor to open the generated HTML file. Options are `vscode`, `intellij`, or `none`. Defaults to `none`.
+### Configuration Options
+
+You can customize the plugin behavior by adding the following configuration options:
+
+- **`projectBaseDir`**: Specifies the base directory of the project to analyze. Defaults to the current working directory.
+- **`outputFileName`**: Specifies the name and path of the output HTML file. Defaults to `./access_control`.
+- **`editor`**: Specifies the editor to open the generated HTML file. Supported values are:
+
+  - `vscode`: Opens the file in Visual Studio Code.
+  - `intellij`: Opens the file in IntelliJ IDEA.
+  - `none`: Simply opens in a new tab af your current browser. Defaults to `none`.
+
+    <details open>
+  <summary>Configuration example</summary>
+
+  ```xml
+   <plugin>
+     <groupId>com.theodo</groupId>
+     <artifactId>spring-access-inspector-plugin</artifactId>
+     <version>1.2.4</version>
+     <configuration>
+       <projectBaseDir>${project.basedir}</projectBaseDir>
+       <outputFileName>~/my/output_file</outputFileName>
+       <editor>vscode</editor>
+     </configuration>
+   </plugin>
+  ```
+
+   </details>
 
 4. Run the analysis in your shell or CI:
 
