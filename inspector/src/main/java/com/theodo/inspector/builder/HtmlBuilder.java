@@ -13,41 +13,22 @@ import com.theodo.inspector.utils.EmbeddedAssets;
 public class HtmlBuilder {
 
     public static void generateHtmlTable(List<AnnotationDto> annotations, String htmlOutputFile, Editor editor) {
-        // Generate the HTML table
         StringBuilder htmlTable = new StringBuilder();
 
-        htmlTable.append("\n<head>\n<style>\ntable {\nborder-collapse: collapse;\nwidth:100%;\n}\n")
-            .append("th, td {\npadding: 8px;\ntext-align: left;\nborder-bottom: 1px solid #ddd;\n}\n")
-            .append("th {\nbackground-color: #f2f2f2;\nposition: relative;\n}\n")
-            .append("th .filter-container {\nmargin-top: 5px;\ndisplay: flex;\nalign-items: center;\n}\n")
-            .append("th .header-title {\nfont-size: 18px;\nfont-weight: bold;\ncursor: pointer;\n}\n")
-            .append("th .filter-input {\nwidth: 85%;\n}\n")
-            .append("th .sort-icon {\nfont-size: 20px;\nmargin-left: 5px;\n}\n")
-            .append("th .clear-button {\nmargin-left: 5px;\ncursor: pointer;\nfont-size: 16px;\n}\n")
-            .append("</style>\n<script>\n")
-            .append(EmbeddedAssets.SORT_TABLE_JS).append(EmbeddedAssets.FILTER_TABLE_JS)
-            .append("\n</script>\n</head>\n<body>\n<table>\n<tr>\n")
-            .append("<th style=\"width: 43%;\"><div class=\"header-title\" onclick=\"sortTable(0)\">Endpoint<span class=\"sort-icon\">↕</span></div>")
-            .append("<div class=\"filter-container\">")
-            .append("<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">")
-            .append("<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>")
-            .append("</div></th>\n")
-            .append("<th style=\"width: 14%;\"><div class=\"header-title\" onclick=\"sortTable(1)\">Method<span class=\"sort-icon\">↕</span></div>")
-            .append("<div class=\"filter-container\">")
-            .append("<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">")
-            .append("<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>")
-            .append("</div></th>\n")
-            .append("<th style=\"width: 43%;\"><div class=\"header-title\" onclick=\"sortTable(2)\">PreAuthorize<span class=\"sort-icon\">↕</span></div>")
-            .append("<div class=\"filter-container\">")
-            .append("<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">")
-            .append("<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>")
-            .append("</div></th>\n</tr>\n");
+        htmlTable.append("\n<head>\n");
+        htmlTable.append(generateStyles());
+        htmlTable.append(generateScripts());
+        htmlTable.append("</head>\n<body>\n<table>\n<tr>\n");
+        htmlTable.append(generateTableHeader("Endpoint", 0, "43%"));
+        htmlTable.append(generateTableHeader("Method", 1, "14%"));
+        htmlTable.append(generateTableHeader("PreAuthorize", 2, "43%"));
+        htmlTable.append("</tr>\n");
 
         // Iterate over the list and generate each row of the table
         for (AnnotationDto annotation : annotations) {
             addTableRow(htmlTable, annotation, editor);
         }
-        // Close the HTML table and body
+
         htmlTable.append("</table>\n</body>\n</html>");
 
         // Write the HTML table to a file
@@ -56,6 +37,70 @@ public class HtmlBuilder {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String generateStyles()
+    {
+        return """
+            <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            th {
+                background-color: #f2f2f2;
+                position: relative;
+            }
+            th .filter-container {
+                margin-top: 5px;
+                display: flex;
+                align-items: center;
+            }
+            th .header-title {
+                font-size: 18px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            th .filter-input {
+                width: 85%;
+            }
+            th .sort-icon {
+                font-size: 20px;
+                margin-left: 5px;
+            }
+            th .clear-button {
+                margin-left: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            </style>
+            """;
+    }
+
+    private static String generateScripts() {
+        // On build, js files in "inspector/src/main/resources" will be stringified and embedded
+        // in "inspector/target/generated-sources/embedded/com/theodo/inspector/utils/EmbeddedAssets.java"
+        return """
+            <script>
+            """ + EmbeddedAssets.SORT_TABLE_JS + EmbeddedAssets.FILTER_TABLE_JS + """
+            </script>
+            """;
+    }
+
+    private static String generateTableHeader(String title, int columnIndex, String width) {
+        return "<th style=\"width: " + width + ";\">" +
+                "<div class=\"header-title\" onclick=\"sortTable(" + columnIndex + ")\">" + title +
+                "<span class=\"sort-icon\">↕</span></div>" +
+                "<div class=\"filter-container\">" +
+                "<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">" +
+                "<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>" +
+                "</div>" +
+                "</th>";
     }
 
     private static void addTableRow(StringBuilder htmlTable, AnnotationDto annotation, Editor editor) {
