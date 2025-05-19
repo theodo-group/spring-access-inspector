@@ -18,14 +18,30 @@ public class HtmlBuilder {
 
         htmlTable.append("\n<head>\n<style>\ntable {\nborder-collapse: collapse;\nwidth:100%;\n}\n")
             .append("th, td {\npadding: 8px;\ntext-align: left;\nborder-bottom: 1px solid #ddd;\n}\n")
-            .append("th {\nbackground-color: #f2f2f2;\ncursor: pointer;\nposition: relative;\n}\n")
-            .append("th .sort-icon {\nfont-size: 16px;\nmargin-left: 5px;\n}\n")
-            .append("th .filter-input {\nmargin-top: 5px;\nwidth: 90%;\n}\n</style>\n<script>\n")
+            .append("th {\nbackground-color: #f2f2f2;\nposition: relative;\n}\n")
+            .append("th .filter-container {\nmargin-top: 5px;\ndisplay: flex;\nalign-items: center;\n}\n")
+            .append("th .header-title {\nfont-size: 18px;\nfont-weight: bold;\ncursor: pointer;\n}\n")
+            .append("th .filter-input {\nwidth: 85%;\n}\n")
+            .append("th .sort-icon {\nfont-size: 20px;\nmargin-left: 5px;\n}\n")
+            .append("th .clear-button {\nmargin-left: 5px;\ncursor: pointer;\nfont-size: 20px;\n}\n")
+            .append("</style>\n<script>\n")
             .append(EmbeddedAssets.SORT_TABLE_JS).append(EmbeddedAssets.FILTER_TABLE_JS)
             .append("\n</script>\n</head>\n<body>\n<table>\n<tr>\n")
-            .append("<th onclick=\"sortTable(0)\">Endpoint<span class=\"sort-icon\">↕</span><br><input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\"></th>\n")
-            .append("<th onclick=\"sortTable(1)\">Method<span class=\"sort-icon\">↕</span><br><input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\"></th>\n")
-            .append("<th onclick=\"sortTable(2)\">PreAuthorize<span class=\"sort-icon\">↕</span><br><input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\"></th>\n</tr>\n");
+            .append("<th><div class=\"header-title\" onclick=\"sortTable(0)\">Endpoint<span class=\"sort-icon\">↕</span></div>")
+            .append("<div class=\"filter-container\">")
+            .append("<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">")
+            .append("<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>")
+            .append("</div></th>\n")
+            .append("<th><div class=\"header-title\" onclick=\"sortTable(1)\">Method<span class=\"sort-icon\">↕</span></div>")
+            .append("<div class=\"filter-container\">")
+            .append("<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">")
+            .append("<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>")
+            .append("</div></th>\n")
+            .append("<th><div class=\"header-title\" onclick=\"sortTable(2)\">PreAuthorize<span class=\"sort-icon\">↕</span></div>")
+            .append("<div class=\"filter-container\">")
+            .append("<input class=\"filter-input\" onkeyup=\"filterTable()\" placeholder=\"Filter...\">")
+            .append("<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>")
+            .append("</div></th>\n</tr>\n");
 
         // Iterate over the list and generate each row of the table
         for (AnnotationDto annotation : annotations) {

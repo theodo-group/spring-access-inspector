@@ -17,9 +17,26 @@ function filterTable() {
             if (filterText && !cellText.includes(filterText)) {
                 isVisible = false;
             }
+
+            // Show or hide the clear button
+            const clearButton = filterInput.nextElementSibling;
+            if (filterText) {
+                clearButton.style.display = 'inline';
+            } else {
+                clearButton.style.display = 'none';
+            }
         });
 
         // Show or hide the row based on the filter
         row.style.display = isVisible ? '' : 'none';
     });
+}
+
+/**
+ * Clears the filter input for a specific column.
+ * @param {HTMLInputElement} input - The filter input element.
+ */
+function clearFilter(input) {
+    input.value = '';
+    filterTable(); // Reapply the filter after clearing
 }
