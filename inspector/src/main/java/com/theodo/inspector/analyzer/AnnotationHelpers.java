@@ -1,4 +1,4 @@
-package com.theodo.inspector.impl.utils;
+package com.theodo.inspector.analyzer;
 
 import spoon.reflect.declaration.CtAnnotation;
 import spoon.reflect.declaration.CtMethod;
@@ -16,12 +16,13 @@ public class AnnotationHelpers {
     public static List<CtAnnotation<? extends Annotation>> getAllAnnotationsForMethod(CtMethod<?> ctMethod) {
         List<CtAnnotation<? extends Annotation>> methodAnnotations = new ArrayList<>(ctMethod.getAnnotations());
         CtType<?> declaringType = ctMethod.getDeclaringType();
-        if (declaringType == null) return methodAnnotations;
+        if (declaringType == null)
+            return methodAnnotations;
 
         // Add all method annotations found in possible interfaces and super class
         Set<CtTypeReference<?>> superInterfaces = new HashSet<>(declaringType.getSuperInterfaces());
         CtTypeReference<?> superclass = declaringType.getSuperclass();
-        if(superclass != null) {
+        if (superclass != null) {
             superInterfaces.add(superclass);
         }
 
@@ -38,5 +39,4 @@ public class AnnotationHelpers {
         }
         return methodAnnotations;
     }
-
 }
