@@ -21,7 +21,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.2.4</version>
+           <version>2.3.0</version>
          </plugin>
          <!-- ...existing plugins... -->
        </plugins>
@@ -42,7 +42,7 @@ Follow these three steps to quickly use the Spring Access Inspector:
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>1.2.4</version>
+           <version>1.3.0</version>
          </plugin>
          <!-- ...existing plugins... -->
        </plugins>
@@ -135,7 +135,7 @@ The Maven plugin simplifies launching the inspector by adding it to the `pom.xml
          <plugin>
            <groupId>com.theodo</groupId>
            <artifactId>spring-access-inspector-plugin</artifactId>
-           <version>2.2.4</version>
+           <version>2.3.0</version>
          </plugin>
        </plugins>
      </pluginManagement>
@@ -163,7 +163,7 @@ You can customize the plugin behavior by adding the following configuration opti
    <plugin>
      <groupId>com.theodo</groupId>
      <artifactId>spring-access-inspector-plugin</artifactId>
-     <version>2.2.4</version>
+     <version>2.3.0</version>
      <configuration>
        <projectBaseDir>${project.basedir}</projectBaseDir>
        <outputFileName>~/my/output_file</outputFileName>
