@@ -43,7 +43,8 @@ for js_file in "$JS_FOLDER"/*.js; do
         constant_name=$(basename "$js_file" .js | sed -E 's/([a-z])([A-Z])/\1_\2/g' | tr '[:lower:]' '[:upper:]' | tr '-' '_' | tr '.' '_')_JS
         {
         echo "    public static final String $constant_name = \"\"\""
-        cat "$js_file"
+        # Double backslashes so Java doesn't treat things like \? as escapes
+        sed 's/\\/\\\\/g' "$js_file"
         echo "\"\"\";"
         echo ""
         } >> "$JAVA_FILE"
