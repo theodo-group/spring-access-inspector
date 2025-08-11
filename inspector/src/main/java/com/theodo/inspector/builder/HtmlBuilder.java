@@ -18,7 +18,9 @@ public class HtmlBuilder {
         htmlTable.append("\n<head>\n");
         htmlTable.append(generateStyles());
         htmlTable.append(generateScripts());
-        htmlTable.append("</head>\n<body>\n<table>\n<tr>\n");
+        htmlTable.append("</head>\n<body>\n");
+        htmlTable.append(generateEditorSelector(editor));
+        htmlTable.append("<table>\n<tr>\n");
         htmlTable.append(generateTableHeader("Endpoint", 0, "43%"));
         htmlTable.append(generateTableHeader("Method", 1, "14%"));
         htmlTable.append(generateTableHeader("PreAuthorize", 2, "43%"));
@@ -87,7 +89,7 @@ public class HtmlBuilder {
         // in "inspector/target/generated-sources/embedded/com/theodo/inspector/utils/EmbeddedAssets.java"
         return """
             <script>
-            """ + EmbeddedAssets.SORT_TABLE_JS + EmbeddedAssets.FILTER_TABLE_JS + """
+            """ + EmbeddedAssets.SORT_TABLE_JS + EmbeddedAssets.FILTER_TABLE_JS + EmbeddedAssets.SWITCH_EDITOR_JS + """
             </script>
             """;
     }
@@ -101,6 +103,16 @@ public class HtmlBuilder {
                 "<span class=\"clear-button\" onclick=\"clearFilter(this.previousElementSibling)\" style=\"display:none\">⤫</span>" +
                 "</div>" +
                 "</th>";
+    }
+
+    private static String generateEditorSelector(Editor defaulEditor) {
+        return "<div style=\"margin-bottom: 10px;\">" + 
+            "<label for=\"linkPrefix\">Select IDE: </label>" +
+            "<select id=\"linkPrefix\" onchange=\"updateLinks()\">" +
+            "<option value=\"none\"" + (defaulEditor == Editor.NONE ? " selected" : "") + ">None</option>" +
+            "<option value=\"vscode\"" + (defaulEditor == Editor.VSCODE ? " selected" : "") + ">VSCode</option>" +
+            "<option value=\"intellij\"" + (defaulEditor == Editor.INTELLIJ ? " selected" : "") + ">IntelliJ</option>" +
+            "</select></div>";
     }
 
     private static void addTableRow(StringBuilder htmlTable, AnnotationDto annotation, Editor editor) {
@@ -119,7 +131,7 @@ public class HtmlBuilder {
                 openInNewTab = true;
                 break;
         }
-        htmlTable.append("<tr>\n<td><a href='").append(StringEscapeUtils.escapeHtml4(url)).append("'")
+        htmlTable.append("<tr>\n<td><a class=\"link\" href='").append(StringEscapeUtils.escapeHtml4(url)).append("'")
                 .append(openInNewTab ? "target='_blank'" : "").append(">")
                 .append(StringEscapeUtils.escapeHtml4(annotation.endpoint())).append("</a></td>\n").append("<td>")
                 .append(StringEscapeUtils.escapeHtml4(annotation.method().replace("Mapping", "").toUpperCase()))
